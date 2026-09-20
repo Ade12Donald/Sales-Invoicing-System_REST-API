@@ -53,4 +53,3 @@ let generateSalesReport = invoices =>{
 
     return {totalRevenue, averageInvoice, highValueCustomers, topInvoice}
 }
-console.log(generateInvoice("aDebOwale doNald", "donaldade1212@gmail.com", "09074576777", 5000, 6000, 570))
