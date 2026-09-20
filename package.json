@@ -1,0 +1,24 @@
+{
+  "name": "js-projects",
+  "version": "1.0.0",
+  "description": "A utility function that cleans, validates, and standardises raw customer\r registration input before it is saved anywhere — the first layer of the\r Sales & Invoice API project.",
+  "main": "UserRegistration.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ade12Donald/Sales-Invoicing-System_REST-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Ade12Donald/Sales-Invoicing-System_REST-API/issues"
+  },
+  "homepage": "https://github.com/Ade12Donald/Sales-Invoicing-System_REST-API#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

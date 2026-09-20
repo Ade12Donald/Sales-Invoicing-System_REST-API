@@ -1,25 +1,56 @@
 let cleanCustomer = (rawFullName, rawEmail, rawPhone) =>{
 
-    let name = rawFullName.trim().toLowerCase().split(" "); 
-    for(let i = 0; i<name.length; i++){
-        name[i] = name[i][0].toUpperCase()+ name[i].slice(1);
+    let customerName = rawFullName.trim().toLowerCase().split(" "); 
+    for(let i = 0; i<customerName.length; i++){
+        customerName[i] = customerName[i][0].toUpperCase()+ customerName[i].slice(1);
     }
-    name = name.join(',').replaceAll(',', " ");
+    customerName = customerName.join(',').replaceAll(',', " ");
 
-    let email = rawEmail.trim().toLowerCase();
-    if((email.includes("@")) && (email.endsWith(".com"))){
+    let customerEmail = rawEmail.trim().toLowerCase();
+    if((customerEmail.includes("@")) && (customerEmail.endsWith(".com"))){
         
     }else{
-        return {error: "Invalid email address"}
+        throw new Error("Error: Invalid Email Address")
     }
 
-    let maskedPhone = rawPhone.trim().replace(" ", "")
+    let maskedPhone = rawPhone.replaceAll(" ", "")
     if(maskedPhone.length === 11){
-        maskedPhone=maskedPhone.slice(0,-4).padEnd(11,"*")
+        maskedPhone=maskedPhone.slice(-4).padStart(11,"*")
     }else{
-        return {error: "Invalid Phone Number"}
+        throw new Error("Error: Invalid Phone Number")
     }
-   return {name,email,maskedPhone}
+   return {customerName,customerEmail,maskedPhone}
 }
 
-console.log(cleanCustomer("ADEboWale dOnald", "backendlogicgmail.com", "07045732889"))
+let generateInvoice = (rawFullName, rawEmail, rawPhone, price1, price2, price3)=>{
+    
+    let customer;
+    try{
+        customer= cleanCustomer(rawFullName, rawEmail, rawPhone);
+    }catch(error){
+        return error.message
+    }
+
+    let subtotal = Number((price1+ price2+ price3).toFixed(2));
+    let vat = Number(((7.5*subtotal)/100).toFixed(2));
+    let total = vat +subtotal;
+
+    let random= Math.floor(Math.random()*1000000).toString().padStart(6,"0")
+    let invoiceNumber= "INV-" + random;
+
+    return {invoiceNumber, ...customer, subtotal, vat, total} ;
+}
+
+let generateSalesReport = invoices =>{
+    if(invoices.length === 0){
+        return {error: "No invoices	to report on"}
+    }
+    let highValueInvoices = invoices.filter(values => values.total>5000);
+    let highValueCustomers = highValueInvoices.map(values =>values.customerName)
+    let totalRevenue = invoices.reduce((acc,curr)=>acc+curr.total,0)
+    let topInvoice= invoices.reduce((acc,curr)=>{if(curr.total>=acc.total){acc=curr}; return acc})
+    let averageInvoice =Number((totalRevenue/(invoices.length)).toFixed(2))
+
+    return {totalRevenue, averageInvoice, highValueCustomers, topInvoice}
+}
+console.log(generateInvoice("aDebOwale doNald", "donaldade1212@gmail.com", "09074576777", 5000, 6000, 570))
